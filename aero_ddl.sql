@@ -18,9 +18,8 @@ CREATE TABLE mision(
     fecha_lanzamiento       DATE,
     horas_duracion          INT,
     disponible              BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY codigo_interplanetario 
-    REFERENCES planeta_residencia(codigo_interplanetario),
-    FOREIGN KEY id_nave REFERENCES nave(id_nave)
+    FOREIGN KEY (codigo_interplanetario) REFERENCES planeta_residencia(codigo_interplanetario),
+    FOREIGN KEY (id_nave) REFERENCES nave(id_nave)
 
 );
 
@@ -34,7 +33,7 @@ CREATE TABLE carga(
     tipo_carga              carga_especial NOT NULL,
     descripcion             VARCHAR(40),
     peso_kgs                INT,
-    FOREIGN KEY id_mision REFERENCES mision(id_mision)
+    FOREIGN KEY (id_mision) REFERENCES mision(id_mision)
 );
 
 
@@ -52,7 +51,7 @@ CREATE TABLE usuario(
     id_medio                INT NOT NULL,
     firs_name               VARCHAR(20),
     last_name               VARCHAR(20),
-    FOREIGN KEY id_medio REFERENCES medio(id_medio)
+    FOREIGN KEY (id_medio) REFERENCES medio(id_medio)
 
 );
 
@@ -61,7 +60,7 @@ CREATE TABLE tripulacion(
     id_usuario              INT NOT NULL,
     oficio                  VARCHAR(20),
     salario                 INT,
-    FOREIGN KEY id_usuario REFERENCES usuario(id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 
 );
 
@@ -73,13 +72,13 @@ CREATE TABLE cliente(
     id_usuario              INT NOT NULL,
     tipo                    tipo_de_cliente NOT NULL,
     nacionalidad            VARCHAR(30),
-    FOREIGN KEY id_usuario REFERENCES usuario(id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 CREATE TABLE mensaje(
     id_mensaje              SERIAL PRIMARY KEY,
     contenido_msj           TEXT NOT NULL
-)
+);
 
 CREATE TYPE estado_notificacion AS ENUM('Enviada', 'Retenida');
 
@@ -90,10 +89,10 @@ CREATE TABLE notificacion(
     id_mensaje              INT NOT NULL,
     fecha_envio             DATE,
     estado_n                estado_notificacion NOT NULL,
-    FOREIGN KEY id_usuario REFERENCES usuario(id_usuario),
-    FOREIGN KEY id_medio REFERENCES medio(id_medio),
-    FOREIGN KEY id_mensaje REFERENCES mensaje(id_mensaje)
-)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_medio) REFERENCES medio(id_medio),
+    FOREIGN KEY (id_mensaje) REFERENCES mensaje(id_mensaje)
+);
 
 CREATE DOMAIN estado_reserva AS TEXT
     CHECK (VALUE IN ('confirmada', 'pendiente'));
@@ -106,8 +105,8 @@ CREATE TABLE reserva(
     fecha_reserva           DATE,
     silla_asignada          INT,
     estado                  estado_reserva NOT NULL,          
-    FOREIGN KEY id_mision REFERENCES mision(id_mision),
-    FOREIGN KEY id_usuario REFERENCES usuario(id_usuario)
+    FOREIGN KEY (id_mision) REFERENCES mision(id_mision),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 
@@ -119,8 +118,8 @@ CREATE TABLE registro(
     id_usuario              INT NOT NULL,
     id_empresa              INT NOT NULL,
     condicion_especial      condicion_usuario NOT NULL,
-    FOREIGN KEY id_usuario REFERENCES usuario(id_usuario),
-    FOREIGN KEY id_empresa REFERENCES empresa_AEG(id_empresa)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_empresa) REFERENCES empresa_AEG(id_empresa)
 
 
 )
