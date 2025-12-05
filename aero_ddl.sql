@@ -8,7 +8,7 @@ CREATE TABLE nave(
     modelo_nave             VARCHAR(20)
 );
 
-CREATE TYPE mision_tipo AS ENUM('Exitosa', 'En planeacion', 'De regreso');
+--se ajusta tipo de dato
 
 
 CREATE TABLE mision(
@@ -17,7 +17,7 @@ CREATE TABLE mision(
     id_nave                 INT NOT NULL,
     fecha_lanzamiento       DATE,
     horas_duracion          INT,
-    estado_mision           mision_tipo NOT NULL,
+    disponible              BOOLEAN DEFAULT FALSE,
     FOREIGN KEY codigo_interplanetario 
     REFERENCES planeta_residencia(codigo_interplanetario),
     FOREIGN KEY id_nave REFERENCES nave(id_nave)
