@@ -2,24 +2,34 @@ CREATE TABLE planeta_residencia(
     codigo_interplanetario  SERIAL PRIMARY KEY,
     nombre_planeta          VARCHAR(20)
 );
+
 CREATE TABLE nave(
     id_nave                 SERIAL PRIMARY KEY,
     modelo_nave             VARCHAR(20)
 );
+
+CREATE TYPE mision_tipo AS ENUM('Exitosa', 'En planeacion', 'De regreso');
+
+
 CREATE TABLE mision(
     id_mision               SERIAL PRIMARY KEY,
-    codigo_interplanetario  INT,
+    codigo_interplanetario  INT NOT NULL,
     fecha_lanzamiento       DATE,
     horas_duracion          INT,
-    estado                  BOOLEAN, -- disponible, no disponible
+    estado_mision           mision_tipo NOT NULL,
     FOREIGN KEY codigo_interplanetario 
     REFERENCES planeta_residencia(codigo_interplanetario)
 
 );
+
+CREATE TYPE carga_especial AS ENUM('Turistica', 'Investigativa');
+
+
+
 CREATE TABLE carga(
     carga_id                SERIAL PRIMARY KEY,
-    id_mision               INT,
-    tipo_carga              VARCHAR(20), -- 'TURISTICA' 'INVESTIGATIVA'
+    id_mision               INT NOT NULL,
+    tipo_carga              carga_especial NOT NULL,
     descripcion             VARCHAR(40),
     peso_kgs                INT,
     FOREIGN KEY id_mision REFERENCES mision(id_mision)
@@ -38,8 +48,7 @@ CREATE TABLE usuario(
     id_medio                INT NOT NULL,
     firs_name               VARCHAR(20),
     last_name               VARCHAR(20),
-    FOREIGN KEY id_medio REFERENCES medio(id_medio),
-
+    FOREIGN KEY id_medio REFERENCES medio(id_medio)
 
 );
 
@@ -65,8 +74,10 @@ CREATE TABLE cliente(
 
 CREATE TABLE mensaje(
     id_mensaje              SERIAL PRIMARY KEY,
-    contenido_msj           TEXT
+    contenido_msj           TEXT NOT NULL
 )
+
+CREATE TYPE estado_notificacion AS ENUM('Enviada', 'Retenida');
 
 CREATE TABLE notificacion(
     id_notificacion         SERIAL PRIMARY KEY,
@@ -74,7 +85,7 @@ CREATE TABLE notificacion(
     id_medio                INT NOT NULL,
     id_mensaje              INT NOT NULL,
     fecha_envio             DATE,
-    estado_notificacion     BOOLEAN  -- true (enviada) false(no enviada)
+    estado_n                estado_notificacion NOT NULL,
     FOREIGN KEY id_usuario REFERENCES usuario(id_usuario),
     FOREIGN KEY id_medio REFERENCES medio(id_medio),
     FOREIGN KEY id_mensaje REFERENCES mensaje(id_mensaje)
